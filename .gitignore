@@ -1,0 +1,7 @@
+# Directories
+/private/
+/node_modules/
+
+# Files
+package*.json
+tailwind*.js
