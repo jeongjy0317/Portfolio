@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Hello!</title>
+    <title>Zer0base</title>
     <link rel="stylesheet" href="./assets/style.css">
     <link rel="stylesheet" href="./assets/fonts.css">
 </head>
@@ -29,7 +29,7 @@
         <section class="mt-5 text-lg md:text-2xl">
             <div class="flex gap-2">
                 <p class="font-mono text-green-500">$ ./run </p>
-                <a class="font-mono text-gray-200 hover:text-green-500" href="./pages/whoami.html" target="_blank">whoami</a>
+                <a class="font-mono text-gray-200 hover:text-green-500" href="./pages/whoami.html">whoami</a>
                 <!-- <a class="font-mono text-gray-200 hover:text-green-500" href="#" target="_blank">tech_stacks</a> -->
             </div>
             <div class="flex gap-2">
@@ -44,66 +44,6 @@
     </div>
 </section>
 <script src="./assets/js/anime.min.js"></script>
-<script>
-    anime
-        .timeline()
-        .add({
-            targets: '#slash',
-            easing: 'easeOutExpo',
-            translateX: -850,
-            translateY: 450,
-            scale: 2,
-            opacity: 0,
-            duration: 1
-        })
-        .add({
-            targets: '#logo',
-            scale: [0, 1],
-            easing: 'easeOutExpo',
-            duration: 400,
-            offset: 200
-        })
-        .add({
-            targets: '#logo #logo-default path',
-            opacity: [0, 1],
-            easing: 'easeOutExpo',
-            duration: 300,
-            offset: 200,
-            delay: function(el, i) {
-                return 80 * i;
-            }
-        })
-        .add({
-            targets: '#separated_lastE',
-            translateX: 1225,
-            easing: 'easeOutExpo',
-            duration: 1250
-        })
-        .add({
-            targets: '#slash',
-            translateX: -407.5,
-            translateY: -15,
-            easing: 'easeOutElastic(1, .6)',
-            opacity: 0.5,
-            duration: 500
-        })
-        .add({
-            targets: '#slash',
-            easing: 'easeOutExpo',
-            opacity: 1,
-            duration: 1000
-        })
-    document.getElementById("logo").addEventListener("click", () => {
-        anime.timeline()
-            .add({
-                targets: '#about_me',
-                scale: [
-                    {value: .1, easing: 'easeOutSine', duration: 500},
-                    {value: 1, easing: 'easeInOutQuad', duration: 1200}
-                ],
-                delay: anime.stagger(0, {grid: [14, 5], from: 'center'})
-            })
-    })
-</script>
+<script src="./assets/js/home_anime.js"></script>
 </body>
 </html>
