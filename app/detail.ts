@@ -172,7 +172,7 @@ function awardDetail(item: Award, idx: number): DetailData {
 function pubDetail(item: Publication, idx: number): DetailData {
   return {
     ...base("publications", idx),
-    badge: "논문",
+    badge: item.kind === "paper" ? "논문" : "발표",
     badgeStrong: false,
     title: item.title,
     subtitle: item.venue,

@@ -464,7 +464,7 @@ export async function buildResumePdf(): Promise<Blob> {
   );
   itemSection(
     f,
-    "논문",
+    "논문 · 발표",
     publications.map((p) => ({ title: p.title, org: p.venue, detail: p.authors })),
   );
   itemSection(

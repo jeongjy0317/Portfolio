@@ -81,6 +81,8 @@ export interface Award {
 
 export interface Publication {
   title: string;
+  /** 학술지·학술대회에 실린 논문인지, 발표만 한 자리인지. */
+  kind: "paper" | "talk";
   venue: string;
   authors: string;
 }
@@ -631,26 +633,31 @@ export const awards: Award[] = [
 export const publications: Publication[] = [
   {
     title: "Stellar-Agent: IaC 룰셋 및 모델 컨텍스트 프로토콜(MCP)을 통합한 AI 에이전트 기반 하이브리드 DevSecOps 정책 감사 프레임워크",
+    kind: "paper",
     venue: "2025 한국데이터사이언스학회 동계학술대회 논문집, 2025.12.18, 논문번호 0032, p.118 · 포스터 발표",
     authors: "정준영, 이창엽, 이정민, 이유식 (순천향대학교)",
   },
   {
     title: "브라우저 확장 프로그램을 활용한 웹 취약점 분석 방안",
+    kind: "paper",
     venue: "한국정보보호학회 동계학술대회 논문집 Vol. 31, No. 2, 2021.11.16, 논문번호 77, p.61 · 구두 발표",
     authors: "정준영, 구도훈, 김종민, 김주원, 이주명, 이상현, 이강석 (BoB), 최지헌 (월간해킹)",
   },
   {
     title: "Into the Maldoc: CTF와 리얼월드 바이너리 분석을 중심으로",
+    kind: "talk",
     venue: "Inc0gnito conference 2021, 2021.08.27 · 컨퍼런스 발표",
     authors: "정준영, 이문규, 김호연 (Dropper Lab)",
   },
   {
     title: "문서형 악성코드 분석 및 대응방안 연구",
+    kind: "paper",
     venue: "한국정보보호학회 동계학술대회 논문집 Vol. 30, No. 2, 2020.11.17, 논문번호 108, p.323 · 구두 발표",
     authors: "정준영, 이문규, 서정택 (순천향대학교)",
   },
   {
     title: "__proto__.pollution : 1",
+    kind: "talk",
     venue: "Halliance 1st Open Seminar, 2020.07.04 · 세미나 발표",
     authors: "정준영",
   },

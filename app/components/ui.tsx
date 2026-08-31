@@ -299,10 +299,14 @@ export function ActivityRow({ activity, last = false, href }: { activity: Activi
 
 export function PublicationRow({ pub, last = false, href }: { pub: Publication; last?: boolean; href?: string }) {
   const { date, kind, rest } = splitVenue(pub.venue);
+  // Two of these are talks with no paper behind them, so the date column names
+  // the category first — 학술논문 or 발표 — and the delivery format under it.
+  // A talk's "컨퍼런스 발표" would only repeat the line above, so it sheds 발표.
+  const paper = pub.kind === "paper";
   return (
     <EntryRow
       meta={date}
-      metaSub={kind || undefined}
+      metaSub={[paper ? "학술논문" : "발표", paper ? kind : kind.replace(/\s*발표$/, "")]}
       title={pub.title}
       href={href}
       sub={rest}
