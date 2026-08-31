@@ -16,6 +16,7 @@ import {
   publications,
   skills,
   activities,
+  activityPeriod,
   type Activity,
   type Award,
   type Cert,
@@ -197,14 +198,19 @@ function skillDetail(item: Skill, idx: number): DetailData {
 function activityDetail(item: Activity, idx: number): DetailData {
   return {
     ...base("activities", idx),
-    period: item.date,
+    period: activityPeriod(item),
     title: item.title,
     subtitle: item.team,
     imageLabel: item.imageLabel,
     images: item.images,
     points: item.points,
     meta: [
-      { k: "일자", v: item.date },
+      ...(item.finalDate
+        ? [
+            { k: "본선", v: item.finalDate },
+            { k: "예선", v: item.date },
+          ]
+        : [{ k: "일자", v: item.date }]),
       { k: "참여", v: item.team },
     ],
   };

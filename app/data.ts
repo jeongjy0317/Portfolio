@@ -88,7 +88,10 @@ export type Skill =
 
 export interface Activity {
   title: string;
+  /** 예선 일자. 본선이 따로 없는 활동에서는 그냥 활동 일자다. */
   date: string;
+  /** 본선 일자. 있으면 카드가 본선(위)/예선(아래) 두 줄로 갈라진다. */
+  finalDate?: string;
   team: string;
   imageLabel?: string;
   images?: GalleryImage[];
@@ -672,13 +675,15 @@ export const skills: Skill[] = [
 export const activities: Activity[] = [
   {
     title: "2026 HACKSIUM BUSAN: 고급부문 예선 13등 본선 진출",
-    date: "2026.08.08 · 본선 2026.09.11 – 09.12",
-    team: "팀 「부산부수기너만오면고」 · 온라인 예선 / 본선 부산 영도구 피아크 아트홀",
+    date: "2026.08.08",
+    finalDate: "2026.09.11 – 09.12",
+    team: "팀 「부산부수기너만오면고」",
     points: ["2026 HACKSIUM BUSAN 고급부문 온라인 예선에서 13위를 기록해 본선에 진출."],
   },
   {
     title: "NYPC 2026 MASTER TRACK: 예선 4등 본선 진출",
-    date: "2026.06.29 – 07.08 · 본선 2026.08.29",
+    date: "2026.06.29 – 07.08",
+    finalDate: "2026.08.29",
     team: "팀 「Decagrammaton」",
     imageLabel: "현장 사진",
     images: [
@@ -697,6 +702,11 @@ export const activities: Activity[] = [
 ];
 
 // -------------------------------------------------------- Nav definitions
+/** Flattens the split dates for surfaces that only take a single line — the
+ *  list-page eyebrow, the detail sidebar, and the résumé PDF. */
+export const activityPeriod = (a: Activity) =>
+  a.finalDate ? `예선 ${a.date} · 본선 ${a.finalDate}` : a.date;
+
 export const overviewNav: NavItem[] = [
   { id: "about", label: "About" },
   { id: "projects", label: "Projects" },

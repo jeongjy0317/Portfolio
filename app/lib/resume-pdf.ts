@@ -8,6 +8,7 @@ import {
   certsEtc,
   awards,
   activities,
+  activityPeriod,
   publications,
   skills,
 } from "../data";
@@ -459,7 +460,7 @@ export async function buildResumePdf(): Promise<Blob> {
   itemSection(
     f,
     "대외활동",
-    activities.map((a) => ({ title: a.title, org: a.team, meta: a.date })),
+    activities.map((a) => ({ title: a.title, org: a.team, meta: activityPeriod(a) })),
   );
   itemSection(
     f,

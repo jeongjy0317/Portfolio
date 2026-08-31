@@ -215,12 +215,28 @@ export function CertRow({ cert, last = false, href }: { cert: Cert; last?: boole
 
 export function ActivityCard({ activity, last = false, href }: { activity: Activity; last?: boolean; href?: string }) {
   return (
-    <div className={`flex flex-col gap-1.5 border-t border-mute-300 pt-10 pb-4 ${last ? "border-b" : ""}`}>
-      <div className="flex items-baseline justify-between gap-4">
-        <h3 className="m-0 text-[18px] text-ink"><TitleLink href={href}>{activity.title}</TitleLink></h3>
-        <span className="whitespace-nowrap text-[12px] font-semibold text-mute-600">{activity.date}</span>
+    /* DOM order is the phone's reading order — title, team, dates — so the dates
+       land under the team line where there is no room beside the title. From md
+       the grid lifts them back up into the second column, beside the heading. */
+    <div
+      className={`grid grid-cols-1 gap-1.5 border-t border-mute-300 pt-10 pb-4 md:grid-cols-[1fr_auto] md:gap-x-4 ${last ? "border-b" : ""}`}
+    >
+      <h3 className="m-0 text-[18px] text-ink md:col-start-1 md:row-start-1">
+        <TitleLink href={href}>{activity.title}</TitleLink>
+      </h3>
+      <p className="m-0 text-[13px] text-mute-700 md:col-start-1 md:row-start-2">{activity.team}</p>
+      {/* Spans both rows so a two-line date never inflates the title's row and
+          pushes the team line down; the nudge sets it on the title's baseline. */}
+      <div className="flex flex-col gap-0.5 text-[12px] font-semibold whitespace-nowrap text-mute-600 md:col-start-2 md:row-span-2 md:row-start-1 md:self-start md:pt-[5px] md:text-right">
+        {activity.finalDate ? (
+          <>
+            <span>본선 {activity.finalDate}</span>
+            <span className="text-mute-500">예선 {activity.date}</span>
+          </>
+        ) : (
+          <span>{activity.date}</span>
+        )}
       </div>
-      <p className="m-0 text-[13px] text-mute-700">{activity.team}</p>
     </div>
   );
 }

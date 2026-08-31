@@ -1,7 +1,7 @@
 import { GalleryArticle } from "../components/ui";
 import MorphIntro from "../components/MorphIntro";
 import { Stagger, StaggerItem } from "../components/motion";
-import { activities } from "../data";
+import { activities, activityPeriod } from "../data";
 import { detailHref, activityId } from "../detail";
 
 export const metadata = { title: "Activities — 정준영" };
@@ -16,7 +16,7 @@ export default function ActivitiesPage() {
             <StaggerItem key={i}>
               {/* Activity → GalleryItem: date becomes the eyebrow, team the subtitle. */}
               <GalleryArticle
-                item={{ period: a.date, title: a.title, subtitle: a.team, images: a.images, points: a.points }}
+                item={{ period: activityPeriod(a), title: a.title, subtitle: a.team, images: a.images, points: a.points }}
                 titleClass="text-[26px] md:text-[28px]"
                 href={detailHref("activities", activityId(i))}
               />
