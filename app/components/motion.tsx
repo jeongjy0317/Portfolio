@@ -5,6 +5,16 @@ import type { ReactNode } from "react";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
+/** Scroll trigger shared by `Stagger` and `Reveal`.
+ *
+ *  `amount` is a fraction of the ELEMENT, not of the screen, so a percentage
+ *  threshold is unreachable once the element is taller than `viewport / amount`
+ *  — the old `amount: 0.15` needed 1245px of an 8300px awards list visible on a
+ *  812px phone, so nothing on /awards ever left `hidden`. `"some"` keeps the
+ *  trigger height-independent; the negative bottom margin restores the "let it
+ *  rise a little into view first" beat that `amount` used to provide. */
+const VIEWPORT = { once: true, amount: "some", margin: "0px 0px -12% 0px" } as const;
+
 const item: Variants = {
   hidden: { opacity: 0, y: 20 },
   show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } },
@@ -33,7 +43,7 @@ export function Stagger({
       variants={container}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={VIEWPORT}
     >
       {children}
     </motion.div>
@@ -65,7 +75,7 @@ export function Reveal({
       className={className}
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
+      viewport={VIEWPORT}
       transition={{ duration: 0.6, ease: EASE, delay }}
     >
       {children}
