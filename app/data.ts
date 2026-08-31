@@ -556,24 +556,6 @@ export const awards: Award[] = [
     images: [{ src: "/awards/gifted-attitude-2019.jpg", alt: "공주대학교 정보보호영재교육원 표창장 — 고등전문1 과정 학습태도 우수상 (제20191018호)", fit: "contain" }],
   },
   {
-    title: "은상(천안청수고등학교장, 제 2019-1300호)",
-    detail: "2019학년도 교내 1학생 1주제 탐구대회 · 개인 (2위)",
-    date: "2019.07.17",
-    images: [{ src: "/awards/student-research-silver-2019.jpg", alt: "천안청수고등학교장 상장 — 2019학년도 1학생 1주제 탐구대회 은상 (제2019-1300호)", fit: "contain" }],
-  },
-  {
-    title: "금상(천안청수고등학교장, 제 2019-0061호)",
-    detail: "2019학년도 IT컴퓨팅 콘테스트 SW개발 부문 · 개인 (1위)",
-    date: "2019.04.25",
-    images: [{ src: "/awards/it-computing-sw-gold-2019.jpg", alt: "천안청수고등학교장 상장 — 2019학년도 IT컴퓨팅 콘테스트 SW개발 부문 금상 (제2019-0061호)", fit: "contain" }],
-  },
-  {
-    title: "은상(천안청수고등학교장, 제 2019-0053호)",
-    detail: "2019학년도 IT컴퓨팅 콘테스트 정보검색 부문 · 개인 (2위)",
-    date: "2019.04.25",
-    images: [{ src: "/awards/it-computing-search-silver-2019.jpg", alt: "천안청수고등학교장 상장 — 2019학년도 IT컴퓨팅 콘테스트 정보검색 부문 은상 (제2019-0053호)", fit: "contain" }],
-  },
-  {
     title: "우수상(공주대학교 정보보호영재교육원장, 제 20184003호)",
     detail: "제4회 정보보안 경진대회 개인전 · 교육부·정보보호영재교육원협의회 주최, 한국교육학술정보원 주관",
     date: "2018.11.17",
@@ -590,12 +572,6 @@ export const awards: Award[] = [
     detail: "Net Impact Impactathon in South Korea 기여 · 중소벤처기업부 후원",
     date: "2018.09.01",
     images: [{ src: "/awards/net-impact-impactathon-2018.jpg", alt: "Net Impact Korea Certificate of Appreciation — Net Impact Impactathon in South Korea", fit: "contain" }],
-  },
-  {
-    title: "동상(천안청수고등학교장, 제 2018-0103호)",
-    detail: "IT상상력 콘테스트 프로그래밍 부문 · 개인 (3위)",
-    date: "2018.05.01",
-    images: [{ src: "/awards/it-imagination-bronze-2018.jpg", alt: "천안청수고등학교장 상장 — IT상상력 콘테스트 프로그래밍 부문 동상 (제2018-0103호)", fit: "contain" }],
   },
   {
     title: "우수상(공주대학교 정보보호영재교육원장, 제 20175003호)",
