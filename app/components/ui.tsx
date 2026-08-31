@@ -83,9 +83,37 @@ export function DetailHeader({ n, title, count }: { n: string; title: string; co
   );
 }
 
-export function GroupLabel({ children, className = "pt-11" }: { children: ReactNode; className?: string }) {
+/**
+ * Heading for a run of related articles (e.g. the four KERIS courses). It has
+ * to outrank the `GalleryArticle`/`CertArticle` titles it introduces, so it is
+ * a real <h2> knocked out of an ink block and trailed by a rule that runs out
+ * to the `count` — marks no article carries, so the group boundary reads at a
+ * glance even though the heading sits close to the items it owns.
+ */
+export function GroupLabel({
+  children,
+  count,
+  rule = true,
+  titleClass = "text-[24px] md:text-[30px]",
+  className = "pt-16 pb-1",
+}: {
+  children: ReactNode;
+  count?: ReactNode;
+  /** Drop the trailing rule where the heading needs to stay bare. */
+  rule?: boolean;
+  titleClass?: string;
+  className?: string;
+}) {
   return (
-    <div className={`${className} text-[10px] font-bold tracking-[.16em] uppercase text-mute-600`}>{children}</div>
+    <div className={className}>
+      <div className="flex items-center gap-5">
+        <h2 className={`m-0 ${titleClass} bg-ink px-3.5 py-1.5 leading-[1.2] tracking-[-.02em] break-keep text-surface`}>{children}</h2>
+        {rule && <div className="h-0.5 min-w-8 flex-1 bg-line" />}
+        {count && (
+          <span className="shrink-0 text-[11px] font-bold tracking-[.14em] uppercase text-mute-500">{count}</span>
+        )}
+      </div>
+    </div>
   );
 }
 

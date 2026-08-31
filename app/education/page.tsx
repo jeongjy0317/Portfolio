@@ -18,7 +18,7 @@ export default function EducationPage() {
           ))}
         </Stagger>
 
-        <GroupLabel>Cyber Security Training Center · {eduCyberTraining.length} courses</GroupLabel>
+        <GroupLabel count={`${eduCyberTraining.length}개 과정`}>사이버안전훈련센터</GroupLabel>
         <Stagger>
           {eduCyberTraining.map((e, i) => (
             <StaggerItem key={e.id}>
@@ -27,7 +27,7 @@ export default function EducationPage() {
           ))}
         </Stagger>
 
-        <GroupLabel>Gongju Univ. Information Security Gifted Academy (KERIS) · 4 courses</GroupLabel>
+        <GroupLabel count={`${eduKeris.length}개 과정`}>공주대학교 정보보호영재교육원</GroupLabel>
         <Stagger>
           {eduKeris.map((e, i) => (
             <StaggerItem key={e.id}>

@@ -13,14 +13,14 @@ export default function CertificationsPage() {
        <SwapIn>
         <DetailHeader n="03" title="Certifications" count="Certifications 5 · Courses 2" />
 
-        <GroupLabel className="pt-7 pb-3">Certifications</GroupLabel>
+        <GroupLabel count={`${certsQual.length}건`} className="pt-8 pb-3">자격증</GroupLabel>
         <Stagger>
           {certsQual.map((c, i) => (
             <StaggerItem key={c.id}><CertArticle cert={c} last={i === certsQual.length - 1} href={detailHref("certifications", c.id)} /></StaggerItem>
           ))}
         </Stagger>
 
-        <GroupLabel className="pt-11 pb-3">Other Coursework</GroupLabel>
+        <GroupLabel count={`${certsEtc.length}건`} className="pt-11 pb-3">기타 수료</GroupLabel>
         <Stagger>
           {certsEtc.map((c, i) => (
             <StaggerItem key={c.id}><CertArticle cert={c} last={i === certsEtc.length - 1} href={detailHref("certifications", c.id)} /></StaggerItem>
