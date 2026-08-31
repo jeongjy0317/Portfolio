@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+/* ===========================================================================
+   Design tokens — "modernist" warm-neutral system, exposed to Tailwind v4 as
+   theme variables so utilities like `bg-paper`, `text-ink`, `text-mute-600`,
+   `border-mute-300`, `border-line` are generated automatically.
+   =========================================================================== */
+@theme {
+  --color-paper: #f3f2f2;
+  --color-surface: #ffffff;
+  --color-ink: #201e1d;
+  --color-line: #201e1d;
+
+  --color-mute-300: #d6d3cd;
+  --color-mute-400: #b3afa8;
+  --color-mute-500: #8c8880;
+  --color-mute-600: #6c6860;
+  --color-mute-700: #524e48;
+  --color-mute-800: #35322d;
+
+  --color-tag: #e7e4df;
+
+  --font-sans: "Archivo", "Noto Sans KR", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Leave breathing room at the top when jumping to a section anchor
+       (also clears the fixed top nav on mobile). */
+    scroll-padding-top: 6rem;
+    /* Clip the detail-view slide-in so it never spawns a horizontal scrollbar
+       (viewport keeps scrolling vertically; the fixed nav is unaffected). */
+    overflow-x: hidden;
+  }
+  @media (min-width: 768px) {
+    html {
+      scroll-padding-top: 5rem;
+    }
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  a:hover {
+    color: #605d5d;
+  }
+}
+
+/* Refined slate/neutral scrollbar (not expressible as utilities) */
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-paper);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-mute-400);
+  border-radius: 9999px;
+  border: 3px solid var(--color-paper);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-mute-500);
+}
