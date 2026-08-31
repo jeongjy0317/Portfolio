@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { LayoutGroup, motion } from "framer-motion";
+import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 import type { GalleryImage } from "../data";
-import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from "./Dialog";
+import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger, type DialogActions } from "./Dialog";
 
 const IMAGE_MORPH = {
   type: "spring" as const,
@@ -61,6 +61,11 @@ export function ImageSlot({
 }) {
   const [open, setOpen] = useState(false);
   const morphGroupId = useId();
+  // Base UI unmounts the popup within a frame of closing unless it is told the
+  // exit is animated elsewhere, which left framer nothing to animate — the
+  // zoomed image just blinked out. `preventUnmountOnClose()` holds the DOM open
+  // and `actionsRef.unmount()` releases it once the shrink-back morph is done.
+  const dialogActions = useRef<DialogActions | null>(null);
 
   if (!image) return null;
   const { src, alt, fit = "cover" } = image;
@@ -68,7 +73,14 @@ export function ImageSlot({
   return (
     <div className={`group relative h-full w-full overflow-hidden border border-mute-300 bg-tag ${className}`}>
       <LayoutGroup id={morphGroupId}>
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog
+          open={open}
+          onOpenChange={(next, details) => {
+            if (!next) details.preventUnmountOnClose();
+            setOpen(next);
+          }}
+          actionsRef={dialogActions}
+        >
           <DialogTrigger
             aria-label={`${alt} 확대 보기`}
             onPointerDown={(e) => e.stopPropagation()}
@@ -95,24 +107,37 @@ export function ImageSlot({
             </span>
           </DialogTrigger>
 
+          {/* The popup is only the a11y/positioning shell — the morphing frame
+              lives inside it under AnimatePresence, so closing runs a real exit
+              back into the tile instead of a hard unmount. */}
           <DialogContent
-            render={<motion.div layoutId="image-frame" transition={IMAGE_MORPH} />}
             onBackdropClick={() => setOpen(false)}
             onClick={(event) => {
               if (event.target === event.currentTarget) setOpen(false);
             }}
-            className="h-[min(90dvh,960px)] w-[min(92vw,1200px)] overflow-hidden bg-paper p-4 shadow-[0_32px_100px_rgba(0,0,0,.38)] md:p-6"
+            className="h-[min(90dvh,960px)] w-[min(92vw,1200px)] bg-transparent"
           >
             <DialogTitle className="sr-only">{alt} 확대 보기</DialogTitle>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={src} alt={alt} className="h-full w-full object-contain" />
-            <DialogClose
-              aria-label="확대 이미지 닫기"
-              onClick={() => setOpen(false)}
-              className="absolute top-3 right-3 flex h-10 w-10 cursor-pointer items-center justify-center border border-paper/25 bg-ink/85 p-0 text-paper transition-colors duration-200 hover:bg-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paper"
-            >
-              <CloseIcon className="h-5 w-5" />
-            </DialogClose>
+            <AnimatePresence onExitComplete={() => dialogActions.current?.unmount()}>
+              {open && (
+                <motion.div
+                  key="frame"
+                  layoutId="image-frame"
+                  transition={IMAGE_MORPH}
+                  className="relative h-full w-full overflow-hidden bg-paper p-4 shadow-[0_32px_100px_rgba(0,0,0,.38)] md:p-6"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={src} alt={alt} className="h-full w-full object-contain" />
+                  <DialogClose
+                    aria-label="확대 이미지 닫기"
+                    onClick={() => setOpen(false)}
+                    className="absolute top-3 right-3 flex h-10 w-10 cursor-pointer items-center justify-center border border-paper/25 bg-ink/85 p-0 text-paper transition-colors duration-200 hover:bg-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paper"
+                  >
+                    <CloseIcon className="h-5 w-5" />
+                  </DialogClose>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </DialogContent>
         </Dialog>
       </LayoutGroup>

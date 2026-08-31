@@ -23,7 +23,7 @@ function DialogOverlay({ className = "", onPointerDown, ...props }: DialogPrimit
   return (
     <DialogPrimitive.Backdrop
       data-slot="dialog-overlay"
-      className={`fixed inset-0 z-50 bg-[rgba(32,30,29,.88)] backdrop-blur-[2px] transition-opacity duration-200 data-[ending-style]:opacity-0 data-[starting-style]:opacity-0 ${className}`}
+      className={`fixed inset-0 z-50 bg-[rgba(32,30,29,.88)] backdrop-blur-[2px] transition-opacity duration-500 ease-out data-[ending-style]:pointer-events-none data-[ending-style]:opacity-0 data-[starting-style]:opacity-0 ${className}`}
       {...props}
       onPointerDown={(event) => {
         onPointerDown?.(event);
@@ -43,7 +43,7 @@ function DialogContent({ className = "", children, onBackdropClick, onPointerDow
       <DialogOverlay onClick={onBackdropClick} />
       <DialogPrimitive.Popup
         data-slot="dialog-content"
-        className={`fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2 outline-none ${className}`}
+        className={`fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2 outline-none data-[ending-style]:pointer-events-none ${className}`}
         {...props}
         onPointerDown={(event) => {
           onPointerDown?.(event);
@@ -67,6 +67,8 @@ function DialogDescription({ className = "", ...props }: DialogPrimitive.Descrip
 function DialogHeader({ className = "", ...props }: ComponentProps<"div">) {
   return <div data-slot="dialog-header" className={`flex flex-col ${className}`} {...props} />;
 }
+
+export type DialogActions = DialogPrimitive.Root.Actions;
 
 export {
   Dialog,
