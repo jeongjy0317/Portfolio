@@ -65,3 +65,26 @@
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-mute-500);
 }
+
+/* Hero scroll cue — a shallow, slow bob so the arrow reads as an invitation
+   rather than an alert. Kept in CSS (not Framer) so it costs nothing on the
+   main thread and so `transform` stays out of the component's hands. */
+@keyframes scroll-cue {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(7px);
+    opacity: 1;
+  }
+}
+.scroll-cue svg {
+  animation: scroll-cue 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue svg {
+    animation: none;
+  }
+}

@@ -8,6 +8,7 @@ import HeroName from "./components/HeroName";
 import SwapIn from "./components/SwapIn";
 import About from "./components/About";
 import ResumeFab from "./components/ResumeFab";
+import ScrollCue from "./components/ScrollCue";
 import { Stagger, StaggerItem, Reveal } from "./components/motion";
 import {
   Divider,
@@ -238,8 +239,9 @@ export default function Overview() {
           <SwapIn className="flex flex-col">
             {/* ---------- Hero (spans full width, content is viewport-centered
                  regardless of the right-pinned sections below) ---------- */}
-            <header className="flex min-h-[calc(100vh-80px)] flex-col justify-center gap-8 px-5 md:min-h-screen md:px-6">
+            <header className="relative flex min-h-[calc(100vh-80px)] flex-col justify-center gap-8 px-5 md:min-h-screen md:px-6">
               <HeroName />
+              <ScrollCue />
             </header>
 
             {/* Right-pinned content column (everything after the hero). Each
