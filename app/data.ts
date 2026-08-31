@@ -36,13 +36,13 @@ export interface Project {
   githubHref?: string;
 }
 
-export type GalleryImage =
-  | string
-  | {
-      src: string;
-      alt: string;
-      fit?: "cover" | "contain";
-    };
+/** Always a real asset — there is no placeholder form, so an entry without a
+ *  scan simply omits `images` rather than reserving an empty frame. */
+export interface GalleryImage {
+  src: string;
+  alt: string;
+  fit?: "cover" | "contain";
+}
 
 /** Shared shape for the date/title/subtitle + gallery + bullets article. */
 export interface TimelineItem {
@@ -62,9 +62,7 @@ export interface Cert {
   expires: string;
   title: string;
   sub: string;
-  /** Placeholder label, used when `image` is absent. */
-  ph: string;
-  /** Scanned certificate. Falls back to the `ph` placeholder slot when unset. */
+  /** Scanned certificate. The image slot is dropped entirely when unset. */
   image?: GalleryImage;
 }
 
@@ -74,7 +72,7 @@ export interface Award {
   date: string;
   /** Gallery heading on the detail page. Defaults to "증빙 자료". */
   imageLabel?: string;
-  /** Scanned 상장. Falls back to a placeholder slot when unset. */
+  /** Scanned 상장. The image slot is dropped entirely when unset. */
   images?: GalleryImage[];
 }
 
@@ -131,7 +129,7 @@ export const projects: Project[] = [
     tag: "Github 오픈소스 · 개인 프로젝트",
     subtitle: "Ghidra 기반 리버스 엔지니어링 초동 분석 과정 자동화 플러그인",
     githubHref: "", // TODO: 실제 GitHub 저장소 URL 입력
-    images: ["이미지 1", "이미지 2", "이미지 3", "이미지 4"],
+    images: [],
     points: [
       "Ghidra를 활용한 바이너리 분석 과정을 체계화하고, 반복적인 정적 분석 흐름을 자동화하여 보조하는 플러그인 1인 개발 및 오픈소스 배포.",
       "함수 구조, 문자열, 참조 관계 등 핵심 분석 단서를 중심으로 취약점 탐색과 악성 행위 이해에 필요한 리버스 엔지니어링 워크플로우를 구축.",
@@ -144,7 +142,7 @@ export const projects: Project[] = [
     tag: "오픈소스 · 팀 프로젝트(개발중)",
     subtitle: "AI 오케스트레이터 기반 클라우드 IaC 보안 분석 솔루션",
     githubHref: "", // TODO: 실제 GitHub 저장소 URL 입력
-    images: ["이미지 1", "이미지 2", "이미지 3", "이미지 4"],
+    images: [],
     points: [
       "공급망 공격 및 클라우드 대상 공격 증가 흐름에 대응해, 클라우드 환경에서 놓치기 쉬운 IaC 설정 오류를 조기 발견하는 보안 분석 솔루션을 개발.",
       "스캐너와 취약점 DB를 통합하고, MCP 기반 AI 오케스트레이터가 정책 룰셋 선택, 분석 결과 수집, 위험도 정리를 수행하는 구조를 설계.",
@@ -158,7 +156,7 @@ export const projects: Project[] = [
     tag: "BoB Web Application Security Project · Github 오픈소스 · 팀 프로젝트",
     subtitle: "웹 취약점 수동 분석 보조 솔루션",
     githubHref: "", // TODO: 실제 GitHub 저장소 URL 입력
-    images: ["이미지 1", "이미지 2", "이미지 3", "이미지 4"],
+    images: [],
     points: [
       "BoB 교육에서 시작된 프로젝트로, 웹 수동 분석을 보조하는 오픈소스 솔루션 개발에 팀원으로 참여.",
       "동작 아키텍처와 내부 DB 스키마를 설계하고 프론트엔드 구현을 담당하여 분석 결과를 수집·정리·활용하는 흐름을 구축.",
@@ -173,7 +171,7 @@ export const projects: Project[] = [
     tag: "Github 오픈소스 · 공익적 팀 프로젝트",
     subtitle: "정부·지자체 COVID-19 공개 데이터를 통합 제공한 공공 데이터 API",
     githubHref: "", // TODO: 실제 GitHub 저장소 URL 입력
-    images: ["이미지 1", "이미지 2", "이미지 3"],
+    images: [],
     points: [
       "신종 코로나바이러스 관련 정부 및 각 지자체에 파편화된 공개 데이터를 한데 모아, 개발자가 별도 데이터 수집 없이 코로나 정보 제공 서비스를 빠르게 구축할 수 있는 API를 제공.",
       "프로젝트 팀장으로서 프로젝트 운영과 데이터 이슈 대응을 총괄하며, 서비스 개발자가 데이터 관리 부담보다 이용자 경험과 기능 구현에 집중할 수 있도록 지원.",
@@ -303,16 +301,16 @@ export const experienceExp: TimelineItem[] = [
 
 // --------------------------------------------------- Certifications (5 + 2)
 export const certsQual: Cert[] = [
-  { id: "ct-gisa", date: "2026.06.12 취득", expires: "영구 · 만료 없음", title: "정보처리기사", sub: "26201080428C", ph: "자격증 이미지", image: { src: "/certifications/information-processing-engineer.png", alt: "국가기술자격증 — 정보처리기사 (26201080428C)", fit: "contain" } },
-  { id: "ct-hr-js", date: "2026.05.08 통과", expires: "영구 · 만료 없음", title: "HackerRank — JavaScript (Intermediate)", sub: "Award AD46F677E5EA", ph: "인증서 이미지", image: { src: "/certifications/hackerrank-javascript.png", alt: "HackerRank Certificate of Accomplishment — JavaScript (Intermediate)", fit: "contain" } },
-  { id: "ct-hr-node", date: "2025.12.17 통과", expires: "영구 · 만료 없음", title: "HackerRank — Node.js (Intermediate)", sub: "Award 0FEC456A1FFF", ph: "인증서 이미지", image: { src: "/certifications/hackerrank-nodejs.png", alt: "HackerRank Certificate of Accomplishment — Node.js (Intermediate)", fit: "contain" } },
-  { id: "ct-sqld", date: "2024.09.20 취득", expires: "2026.03.20 영구 전환", title: "SQL 개발자 (SQLD)", sub: "SQLD-054018954", ph: "자격증 이미지", image: { src: "/certifications/sqld.png", alt: "국가공인 자격증 — SQL 개발자 (SQLD-054018954)", fit: "contain" } },
-  { id: "ct-linux", date: "2020.10.23 취득", expires: "영구 · 만료 없음", title: "리눅스 마스터 2급", sub: "LMS-2003-006649", ph: "자격증 이미지", image: { src: "/certifications/linux-master-2.png", alt: "정보통신기술자격검정 합격확인서 — 리눅스마스터 2급 (LMS-2003-006649)", fit: "contain" } },
+  { id: "ct-gisa", date: "2026.06.12 취득", expires: "영구 · 만료 없음", title: "정보처리기사", sub: "26201080428C", image: { src: "/certifications/information-processing-engineer.png", alt: "국가기술자격증 — 정보처리기사 (26201080428C)", fit: "contain" } },
+  { id: "ct-hr-js", date: "2026.05.08 통과", expires: "영구 · 만료 없음", title: "HackerRank — JavaScript (Intermediate)", sub: "Award AD46F677E5EA", image: { src: "/certifications/hackerrank-javascript.png", alt: "HackerRank Certificate of Accomplishment — JavaScript (Intermediate)", fit: "contain" } },
+  { id: "ct-hr-node", date: "2025.12.17 통과", expires: "영구 · 만료 없음", title: "HackerRank — Node.js (Intermediate)", sub: "Award 0FEC456A1FFF", image: { src: "/certifications/hackerrank-nodejs.png", alt: "HackerRank Certificate of Accomplishment — Node.js (Intermediate)", fit: "contain" } },
+  { id: "ct-sqld", date: "2024.09.20 취득", expires: "2026.03.20 영구 전환", title: "SQL 개발자 (SQLD)", sub: "SQLD-054018954", image: { src: "/certifications/sqld.png", alt: "국가공인 자격증 — SQL 개발자 (SQLD-054018954)", fit: "contain" } },
+  { id: "ct-linux", date: "2020.10.23 취득", expires: "영구 · 만료 없음", title: "리눅스 마스터 2급", sub: "LMS-2003-006649", image: { src: "/certifications/linux-master-2.png", alt: "정보통신기술자격검정 합격확인서 — 리눅스마스터 2급 (LMS-2003-006649)", fit: "contain" } },
 ];
 
 export const certsEtc: Cert[] = [
-  { id: "ct-claude", date: "2026.06.14 수료", expires: "영구 · 만료 없음", title: "Claude Code in Action", sub: "Award 6672EG9J6DM9", ph: "수료증 이미지", image: { src: "/certifications/claude-code-in-action.png", alt: "Anthropic Certificate of Completion — Claude Code in Action", fit: "contain" } },
-  { id: "ct-googleai", date: "2025.12.03 수료", expires: "영구 · 만료 없음", title: "Google AI Essentials Specialization", sub: "Award EO3PBI26QHCK", ph: "수료증 이미지", image: { src: "/certifications/google-ai-essentials.jpg", alt: "Coursera Specialization Certificate — Google AI Essentials (5개 강좌)", fit: "contain" } },
+  { id: "ct-claude", date: "2026.06.14 수료", expires: "영구 · 만료 없음", title: "Claude Code in Action", sub: "Award 6672EG9J6DM9", image: { src: "/certifications/claude-code-in-action.png", alt: "Anthropic Certificate of Completion — Claude Code in Action", fit: "contain" } },
+  { id: "ct-googleai", date: "2025.12.03 수료", expires: "영구 · 만료 없음", title: "Google AI Essentials Specialization", sub: "Award EO3PBI26QHCK", image: { src: "/certifications/google-ai-essentials.jpg", alt: "Coursera Specialization Certificate — Google AI Essentials (5개 강좌)", fit: "contain" } },
 ];
 
 // ----------------------------------------------------------- Education (9)

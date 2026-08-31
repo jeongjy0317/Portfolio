@@ -1,11 +1,32 @@
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import Link from "next/link";
 import type { Activity, Award, Cert, GalleryImage, Project, Publication, Skill, TimelineItem } from "../data";
+import { profile } from "../data";
 import { ImageSlot, ImageGallery, ImageGrid } from "./ImageSlot";
 
 /* ============================================================ Primitives */
 
 export const Divider = () => <div className="h-0.5 bg-line" />;
+
+/**
+ * Renders an author list with the portfolio owner in bold, so his own name is
+ * findable at a glance in a run of eight co-authors. Everything else keeps the
+ * surrounding weight and colour; only the run matching `profile.nameKo` lifts.
+ */
+export function AuthorLine({ authors }: { authors: string }) {
+  const parts = authors.split(profile.nameKo);
+  if (parts.length === 1) return <>{authors}</>;
+  return (
+    <>
+      {parts.map((part, i) => (
+        <Fragment key={i}>
+          {i > 0 && <strong className="font-bold">{profile.nameKo}</strong>}
+          {part}
+        </Fragment>
+      ))}
+    </>
+  );
+}
 
 /** Diagonal arrow pointing to the upper-right — the "open detail" affordance. */
 export function ArrowUpRight({ className = "" }: { className?: string }) {
@@ -209,7 +230,7 @@ export function PublicationItem({ pub, last = false, href }: { pub: Publication;
     <div className={`flex flex-col gap-1.5 border-t border-mute-300 pt-10 pb-4 ${last ? "border-b" : ""}`}>
       <div className="text-[15px] font-semibold leading-[1.4] text-ink"><TitleLink href={href}>{pub.title}</TitleLink></div>
       <div className="text-[12px] text-mute-700">{pub.venue}</div>
-      <div className="text-[12px] text-mute-800">{pub.authors}</div>
+      <div className="text-[12px] text-mute-800"><AuthorLine authors={pub.authors} /></div>
     </div>
   );
 }
@@ -254,9 +275,11 @@ export function AwardArticle({ award, last = false, href }: { award: Award; last
         <h2 className="m-0 text-[20px] leading-[1.35] text-ink"><TitleLink href={href}>{award.title}</TitleLink></h2>
         <p className="m-0 text-[13px] text-mute-700">{award.detail}</p>
       </div>
-      <div className="aspect-[3/2] w-full max-w-[240px]">
-        <ImageSlot image={award.images?.[0]} placeholder="수상 이미지" />
-      </div>
+      {award.images?.[0] && (
+        <div className="aspect-[3/2] w-full max-w-[240px]">
+          <ImageSlot image={award.images[0]} />
+        </div>
+      )}
     </article>
   );
 }
@@ -315,7 +338,7 @@ export function GalleryArticle({
           {subtitle && <div className={`text-[14px] ${item.org ? "font-semibold" : "font-normal"} text-mute-700`}>{subtitle}</div>}
         </div>
       </div>
-      {item.images &&
+      {item.images && item.images.length > 0 &&
         (gallery === "grid" ? <ImageGrid images={item.images} /> : <ImageGallery images={item.images} />)}
       {item.points && (
         <ul className="m-0 max-w-[70ch] list-disc pl-[18px] text-[14px] leading-[1.7] text-mute-800">
@@ -356,9 +379,11 @@ export function CertArticle({
       </div>
       <div className="flex w-full max-w-[240px] flex-col gap-3">
         <CertDates date={cert.date} expires={cert.expires} />
-        <div className="aspect-[3/2] w-full">
-          <ImageSlot image={cert.image} placeholder={cert.ph} />
-        </div>
+        {cert.image && (
+          <div className="aspect-[3/2] w-full">
+            <ImageSlot image={cert.image} />
+          </div>
+        )}
       </div>
     </article>
   );

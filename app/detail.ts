@@ -139,7 +139,7 @@ function certDetail(item: Cert, idx: number): DetailData {
     title: item.title,
     subtitle: item.sub,
     imageLabel: "증빙 자료",
-    images: [item.image ?? item.ph],
+    images: item.image ? [item.image] : [],
     meta: [
       { k: "일자", v: item.date },
       { k: "유효기간", v: item.expires },
@@ -162,7 +162,7 @@ function awardDetail(item: Award, idx: number): DetailData {
     title: item.detail,
     subtitle: authority ? `${authority} 수여` : undefined,
     imageLabel: item.imageLabel ?? "증빙 자료",
-    images: item.images ?? ["상장 이미지"],
+    images: item.images ?? [],
     meta,
   };
 }

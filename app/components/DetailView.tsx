@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { DetailData, DetailNeighbor } from "../detail";
 import { ImageGallery } from "./ImageSlot";
-import { ArrowUpRight } from "./ui";
+import { ArrowUpRight, AuthorLine } from "./ui";
 import SwapIn from "./SwapIn";
 import { Reveal, Stagger, StaggerItem } from "./motion";
 
@@ -141,7 +141,9 @@ export default function DetailView({
                       {data.meta.map((row) => (
                         <div key={row.k} className="flex flex-col gap-1 border-b border-mute-300 py-4">
                           <dt className="text-[10px] font-bold tracking-[.14em] uppercase text-mute-500">{row.k}</dt>
-                          <dd className="m-0 text-[13px] leading-[1.55] text-mute-800">{row.v}</dd>
+                          <dd className="m-0 text-[13px] leading-[1.55] text-mute-800">
+                            {row.k === "저자" ? <AuthorLine authors={row.v} /> : row.v}
+                          </dd>
                         </div>
                       ))}
                     </dl>
