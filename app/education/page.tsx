@@ -22,7 +22,7 @@ export default function EducationPage() {
         <Stagger>
           {eduCyberTraining.map((e, i) => (
             <StaggerItem key={e.id}>
-              <GalleryArticle item={e} titleClass="text-[26px]" padClass={i === 0 ? "pt-7 pb-11" : "py-11"} href={detailHref("education", e.id)} />
+              <GalleryArticle item={e} headingAs="h3" hideOrg titleClass="text-[26px]" padClass={i === 0 ? "pt-7 pb-11" : "py-11"} href={detailHref("education", e.id)} />
             </StaggerItem>
           ))}
         </Stagger>
@@ -31,7 +31,7 @@ export default function EducationPage() {
         <Stagger>
           {eduKeris.map((e, i) => (
             <StaggerItem key={e.id}>
-              <GalleryArticle item={e} titleClass="text-[26px]" padClass={i === 0 ? "pt-7 pb-11" : "py-11"} href={detailHref("education", e.id)} />
+              <GalleryArticle item={e} headingAs="h3" hideOrg titleClass="text-[26px]" padClass={i === 0 ? "pt-7 pb-11" : "py-11"} href={detailHref("education", e.id)} />
             </StaggerItem>
           ))}
         </Stagger>

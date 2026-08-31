@@ -279,17 +279,23 @@ export function GalleryArticle({
   titleClass = "text-[30px]",
   padClass = "py-11",
   gallery = "slider",
+  headingAs: Heading = "h2",
+  hideOrg = false,
   href,
 }: {
   item: GalleryItem;
   titleClass?: string;
   padClass?: string;
   gallery?: "slider" | "grid";
+  /** Demote to h3 under a `GroupLabel`, which owns the h2 for the run. */
+  headingAs?: "h2" | "h3";
+  /** Drop the institution when the enclosing `GroupLabel` already names it. */
+  hideOrg?: boolean;
   /** When set, the title links to a detail page and a "자세히 보기" link is shown. */
   href?: string;
 }) {
-  const meta = [item.period, item.place || item.tag].filter(Boolean).join(" · ");
-  const subtitle = item.subtitle || item.org;
+  const meta = [item.period, hideOrg ? null : item.place || item.tag].filter(Boolean).join(" · ");
+  const subtitle = item.subtitle || (hideOrg ? null : item.org);
   return (
     <article className={`flex flex-col gap-4 border-b border-mute-300 ${padClass}`}>
       <div className="flex flex-col gap-2">
@@ -298,13 +304,13 @@ export function GalleryArticle({
         <div className="flex flex-col gap-1">
           {href ? (
             <Link href={href} className="group inline-flex items-center gap-2.5 no-underline">
-              <h2 className={`m-0 ${titleClass} leading-[1.2] tracking-[-.02em] text-ink transition-colors group-hover:text-mute-600`}>
+              <Heading className={`m-0 ${titleClass} leading-[1.2] tracking-[-.02em] text-ink transition-colors group-hover:text-mute-600`}>
                 {item.title}
-              </h2>
+              </Heading>
               <ArrowUpRight className="h-[18px] w-[18px] shrink-0 text-mute-400 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-mute-600" />
             </Link>
           ) : (
-            <h2 className={`m-0 ${titleClass} leading-[1.2] tracking-[-.02em] text-ink`}>{item.title}</h2>
+            <Heading className={`m-0 ${titleClass} leading-[1.2] tracking-[-.02em] text-ink`}>{item.title}</Heading>
           )}
           {subtitle && <div className={`text-[14px] ${item.org ? "font-semibold" : "font-normal"} text-mute-700`}>{subtitle}</div>}
         </div>
@@ -330,11 +336,22 @@ export function GalleryArticle({
 }
 
 /** Detail-page certification article: content left, dates + image right. */
-export function CertArticle({ cert, last = false, href }: { cert: Cert; last?: boolean; href?: string }) {
+export function CertArticle({
+  cert,
+  last = false,
+  headingAs: Heading = "h2",
+  href,
+}: {
+  cert: Cert;
+  last?: boolean;
+  /** Demote to h3 under a `GroupLabel`, which owns the h2 for the run. */
+  headingAs?: "h2" | "h3";
+  href?: string;
+}) {
   return (
     <article className={`grid grid-cols-1 items-start gap-6 border-t border-mute-300 pt-10 pb-7 md:grid-cols-[1fr_240px] md:gap-11 ${last ? "border-b" : ""}`}>
       <div className="flex flex-col gap-2">
-        <h2 className="m-0 text-[22px] text-ink md:text-[24px]"><TitleLink href={href}>{cert.title}</TitleLink></h2>
+        <Heading className="m-0 text-[22px] text-ink md:text-[24px]"><TitleLink href={href}>{cert.title}</TitleLink></Heading>
         <p className="m-0 text-[13px] text-mute-700">{cert.sub}</p>
       </div>
       <div className="flex w-full max-w-[240px] flex-col gap-3">
