@@ -545,7 +545,7 @@ export const awards: Award[] = [
   },
   {
     title: "우수상(공주대학교 정보보호영재교육원장, 제 20191018호)",
-    detail: "고등전문1 교육과정 학습태도 · 개인",
+    detail: "고등전문1 과정 · 개인",
     date: "2019.11.23",
     images: [{ src: "/awards/gifted-attitude-2019.jpg", alt: "공주대학교 정보보호영재교육원 표창장 — 고등전문1 과정 학습태도 우수상 (제20191018호)", fit: "contain" }],
   },
@@ -575,7 +575,7 @@ export const awards: Award[] = [
   },
   {
     title: "우수상(공주대학교 정보보호영재교육원장, 제 20181017호)",
-    detail: "고등전문II 교육과정 학습태도 · 개인",
+    detail: "고등전문II 과정 · 개인",
     date: "2018.11.17",
     images: [{ src: "/awards/gifted-attitude-2018.jpg", alt: "공주대학교 정보보호영재교육원 표창장 — 고등전문II 과정 학습태도 우수상 (제20181017호)", fit: "contain" }],
   },
@@ -605,7 +605,7 @@ export const awards: Award[] = [
   },
   {
     title: "우수상(공주대학교 정보보호영재교육원장, 제 20171014호)",
-    detail: "고등기초심화A 교육과정 학습태도 · 개인",
+    detail: "고등기초심화A 과정 · 개인",
     date: "2017.11.25",
     images: [{ src: "/awards/gifted-attitude-2017.jpg", alt: "공주대학교 정보보호영재교육원 표창장 — 고등기초심화A 과정 학습태도 우수상 (제20171014호)", fit: "contain" }],
   },
@@ -617,7 +617,7 @@ export const awards: Award[] = [
   },
   {
     title: "최우수상(공주대학교 정보보호영재교육원장, 제 20161002호)",
-    detail: "중등기초B 교육과정 학습태도 · 개인",
+    detail: "중등기초B 과정 · 개인",
     date: "2016.11.19",
     images: [{ src: "/awards/gifted-attitude-2016.jpg", alt: "공주대학교 정보보호영재교육원 표창장 — 중등기초B 과정 학습태도 최우수상 (제20161002호)", fit: "contain" }],
   },
