@@ -12,14 +12,15 @@ import { Stagger, StaggerItem, Reveal } from "./components/motion";
 import {
   Divider,
   SectionHead,
-  ProjectCard,
+  EntryRow,
+  ProjectRow,
   TimelineRow,
   CertRow,
   AwardRow,
   AwardArticle,
-  PublicationItem,
+  PublicationRow,
   SkillRow,
-  ActivityCard,
+  ActivityRow,
   GalleryArticle,
 } from "./components/ui";
 import {
@@ -256,8 +257,8 @@ export default function Overview() {
               <Divider />
               <SectionHead n="01" title="Projects" />
               <Stagger className="flex flex-col">
-                {projects.slice(0, 3).map((p, i) => (
-                  <StaggerItem key={p.id}><ProjectCard project={p} last={i === 2} /></StaggerItem>
+                {projects.slice(0, 3).map((p) => (
+                  <StaggerItem key={p.id}><ProjectRow project={p} /></StaggerItem>
                 ))}
               </Stagger>
               <Link href="/projects/" className={moreCls}>See 1 more project →</Link>
@@ -280,8 +281,8 @@ export default function Overview() {
               <Divider />
               <SectionHead n="03" title="Certifications" />
               <Stagger className="flex flex-col">
-                {certList.map((c, i) => (
-                  <StaggerItem key={c.id}><CertRow cert={c} last={i === certList.length - 1} href={detailHref("certifications", c.id)} /></StaggerItem>
+                {certList.map((c) => (
+                  <StaggerItem key={c.id}><CertRow cert={c} href={detailHref("certifications", c.id)} /></StaggerItem>
                 ))}
               </Stagger>
               <Link href="/certifications/" className={moreCls}>{`See all ${certList.length} →`}</Link>
@@ -292,8 +293,8 @@ export default function Overview() {
               <Divider />
               <SectionHead n="04" title="Education" />
               <Stagger className="flex flex-col">
-                {eduMain.map((e, i) => (
-                  <StaggerItem key={e.id}><TimelineRow item={e} last={i === eduMain.length - 1} href={detailHref("education", e.id)} /></StaggerItem>
+                {eduMain.map((e) => (
+                  <StaggerItem key={e.id}><TimelineRow item={e} href={detailHref("education", e.id)} /></StaggerItem>
                 ))}
               </Stagger>
               <Link href="/education/" className={moreCls}>See {eduCyberTraining.length + eduKeris.length} more →</Link>
@@ -317,7 +318,7 @@ export default function Overview() {
               <SectionHead n="06" title="Publications" />
               <Stagger className="flex flex-col">
                 {publications.map((p, i) => (
-                  <StaggerItem key={i}><PublicationItem pub={p} href={detailHref("publications", pubId(i))} /></StaggerItem>
+                  <StaggerItem key={i}><PublicationRow pub={p} href={detailHref("publications", pubId(i))} /></StaggerItem>
                 ))}
               </Stagger>
               <Link href="/publications/" className={moreCls}>{`See all ${publications.length} →`}</Link>
@@ -340,8 +341,8 @@ export default function Overview() {
               <Divider />
               <SectionHead n="08" title="Activities" />
               <Stagger className="flex flex-col">
-                {activities.slice(0, MORE_MAX).map((a, i, arr) => (
-                  <StaggerItem key={i}><ActivityCard activity={a} last={i === arr.length - 1} href={detailHref("activities", activityId(i))} /></StaggerItem>
+                {activities.slice(0, MORE_MAX).map((a, i) => (
+                  <StaggerItem key={i}><ActivityRow activity={a} href={detailHref("activities", activityId(i))} /></StaggerItem>
                 ))}
               </Stagger>
               <Link href="/activities/" className={moreCls}>{`See ${activities.length - MORE_MAX} more →`}</Link>
@@ -363,14 +364,13 @@ export default function Overview() {
                 {[
                   { label: "GitHub", value: profile.github, href: profile.githubHref },
                   { label: "LinkedIn", value: profile.linkedin, href: profile.linkedinHref },
-                ].map((c, i, arr) => (
+                ].map((c) => (
                   <StaggerItem key={c.label}>
-                    <div className={`grid grid-cols-1 items-baseline gap-1 border-t border-mute-300 pt-10 pb-4 md:grid-cols-[150px_1fr] md:gap-7 ${i === arr.length - 1 ? "border-b" : ""}`}>
-                      <div className="text-[12px] font-bold tracking-[.1em] uppercase text-mute-600">{c.label}</div>
+                    <EntryRow meta={<span className="tracking-[.1em] uppercase">{c.label}</span>}>
                       <a href={c.href} target="_blank" rel="noopener noreferrer" className="text-[15px] text-ink no-underline hover:text-mute-700">
                         {c.value}
                       </a>
-                    </div>
+                    </EntryRow>
                   </StaggerItem>
                 ))}
               </Stagger>

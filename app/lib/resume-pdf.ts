@@ -450,7 +450,7 @@ export async function buildResumePdf(): Promise<Blob> {
   itemSection(
     f,
     "자격 · 인증",
-    [...certsQual, ...certsEtc].map((c) => ({ title: c.title, org: c.sub, meta: c.date })),
+    [...certsQual, ...certsEtc].map((c) => ({ title: c.title, org: c.issuer, meta: c.date })),
   );
   itemSection(
     f,

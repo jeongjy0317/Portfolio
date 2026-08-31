@@ -161,100 +161,161 @@ export function CertDates({ date, expires, align = "right" }: { date: string; ex
 
 /* ================================================================ Blocks */
 
-export function ProjectCard({ project, last = false }: { project: Project; last?: boolean }) {
+/**
+ * Publications carry their date and their delivery format ("구두 발표") inside one
+ * venue string, but the row wants both in the date column like every other
+ * section. Pull the first yyyy.mm.dd out — with the comma that separated it —
+ * and the trailing "· …발표" off the end; what is left is the venue itself.
+ */
+function splitVenue(venue: string) {
+  let rest = venue;
+  const match = rest.match(/\d{4}\.\d{2}\.\d{2}/);
+  const date = match ? match[0] : "";
+  if (match) rest = rest.replace(new RegExp(`,?\\s*${match[0].replace(/\./g, "\\.")}`), "").trim();
+  const kind = rest.match(/\s·\s([^·]*발표)\s*$/);
+  if (kind) rest = rest.slice(0, kind.index).trim();
+  return { date, kind: kind ? kind[1] : "", rest };
+}
+
+/**
+ * The row every overview list is built from: a fixed date column on the left,
+ * the entry itself on the right. Experience set this shape and the rest of the
+ * page now shares it, so the sections read as one system rather than as seven
+ * separately-designed cards. Only the date column's second line and the weight
+ * of the subtitle vary — an organisation name carries weight, a long
+ * descriptive line does not.
+ */
+export function EntryRow({
+  meta,
+  metaSub,
+  title,
+  href,
+  sub,
+  subEmphasis = true,
+  note,
+  points,
+  last = false,
+  children,
+}: {
+  meta: ReactNode;
+  /**
+   * Lines under the date — place, expiry, qualifying round, project type. Each
+   * entry gets its own line in the column; on mobile, where the column folds
+   * into the date's line, they run on separated by ·.
+   */
+  metaSub?: ReactNode | ReactNode[];
+  /** Omitted only by Skills, whose label lives in the date column instead. */
+  title?: ReactNode;
+  href?: string;
+  sub?: ReactNode;
+  subEmphasis?: boolean;
+  note?: ReactNode;
+  points?: string[];
+  last?: boolean;
+  children?: ReactNode;
+}) {
   return (
-    <Link
-      href={`/project/${project.id}/`}
-      className={`group block border-t border-mute-300 pt-10 pb-7 no-underline ${last ? "border-b" : ""}`}
-    >
-      <div className="flex items-baseline justify-between gap-4">
-        <h3 className="m-0 flex items-center gap-2 text-[21px] text-ink transition-colors group-hover:text-mute-600">
-          {project.title}
-          <ArrowUpRight className="h-[15px] w-[15px] text-mute-400 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-mute-600" />
-        </h3>
-        <span className="whitespace-nowrap text-[12px] font-semibold text-mute-600">{project.period}</span>
+    <div className={`grid grid-cols-1 gap-2 border-t border-mute-300 pt-10 pb-7 md:grid-cols-[150px_1fr] md:gap-7 ${last ? "border-b" : ""}`}>
+      <div className="text-[12px] font-semibold text-mute-600">
+        {meta}
+        {(Array.isArray(metaSub) ? metaSub : [metaSub]).filter(Boolean).map((line, i) => (
+          <span key={i} className={`pl-2 font-normal md:block md:pl-0 md:leading-[1.5] ${i === 0 ? "md:pt-1" : "md:pt-0"}`}>
+            {i > 0 && <span className="md:hidden">· </span>}
+            {line}
+          </span>
+        ))}
       </div>
-      <div className="mt-2.5 text-[12px] text-mute-700">{project.subtitle} · {project.tag}</div>
-      <ul className="mt-1.5 list-disc pl-[18px] text-[14px] leading-[1.65] text-mute-800">
-        {project.points.map((pt, i) => <li key={i}>{pt}</li>)}
-      </ul>
-    </Link>
+      <div className="flex flex-col gap-2">
+        {title && (
+          <h3 className="m-0 text-[19px] leading-[1.35] break-keep text-ink">
+            <TitleLink href={href}>{title}</TitleLink>
+          </h3>
+        )}
+        {sub && <div className={`text-[13px] ${subEmphasis ? "font-semibold" : ""} text-mute-700`}>{sub}</div>}
+        {note && <div className="text-[13px] text-mute-800">{note}</div>}
+        {points && points.length > 0 && (
+          <ul className="mt-0.5 list-disc pl-[18px] text-[14px] leading-[1.65] text-mute-800">
+            {points.map((pt, i) => <li key={i}>{pt}</li>)}
+          </ul>
+        )}
+        {children}
+      </div>
+    </div>
+  );
+}
+
+export function ProjectRow({ project, last = false }: { project: Project; last?: boolean }) {
+  return (
+    <EntryRow
+      meta={project.period}
+      metaSub={project.tag.split(" · ")}
+      title={project.title}
+      href={`/project/${project.id}/`}
+      sub={project.subtitle}
+      subEmphasis={false}
+      points={project.points}
+      last={last}
+    />
   );
 }
 
 /** Date column + content row used by Experience & Education. */
 export function TimelineRow({ item, showPlace = true, last = false, href }: { item: TimelineItem; showPlace?: boolean; last?: boolean; href?: string }) {
   return (
-    <div className={`grid grid-cols-1 gap-2 border-t border-mute-300 pt-10 pb-7 md:grid-cols-[150px_1fr] md:gap-7 ${last ? "border-b" : ""}`}>
-      <div className="text-[12px] font-semibold text-mute-600">
-        {item.period}
-        {showPlace && item.place && <span className="pl-2 font-normal md:block md:pl-0 md:pt-1">{item.place}</span>}
-      </div>
-      <div className="flex flex-col gap-2">
-        <h3 className="m-0 text-[19px] text-ink"><TitleLink href={href}>{item.title}</TitleLink></h3>
-        {item.org && <div className="text-[13px] font-semibold text-mute-700">{item.org}</div>}
-        <ul className="mt-0.5 list-disc pl-[18px] text-[14px] leading-[1.65] text-mute-800">
-          {item.points.map((pt, i) => <li key={i}>{pt}</li>)}
-        </ul>
-      </div>
-    </div>
+    <EntryRow
+      meta={item.period}
+      metaSub={showPlace ? item.place : undefined}
+      title={item.title}
+      href={href}
+      sub={item.org}
+      points={item.points}
+      last={last}
+    />
   );
 }
 
-/** Certification row: content left, dates right — compact hairline row. */
+/** Certification row: acquired date over expiry in the date column. */
 export function CertRow({ cert, last = false, href }: { cert: Cert; last?: boolean; href?: string }) {
   return (
-    <div className={`grid grid-cols-[1fr_auto] items-baseline gap-x-6 gap-y-0.5 border-t border-mute-300 py-4 ${last ? "border-b" : ""}`}>
-      <h3 className="m-0 text-[17px] leading-[1.35] text-ink"><TitleLink href={href}>{cert.title}</TitleLink></h3>
-      <span className="whitespace-nowrap text-[12px] font-bold tracking-[.04em] text-mute-700">{cert.date}</span>
-      <p className="m-0 text-[11.5px] text-mute-500">{cert.sub}</p>
-      <span className="whitespace-nowrap text-right text-[11.5px] font-semibold tracking-[.02em] text-mute-500">{cert.expires}</span>
-    </div>
+    <EntryRow meta={cert.date} metaSub={cert.expires} title={cert.title} href={href} sub={cert.issuer} last={last} />
   );
 }
 
-export function ActivityCard({ activity, last = false, href }: { activity: Activity; last?: boolean; href?: string }) {
+/** Activities split their dates: 본선 leads the column, 예선 sits under it. */
+export function ActivityRow({ activity, last = false, href }: { activity: Activity; last?: boolean; href?: string }) {
   return (
-    /* DOM order is the phone's reading order — title, team, dates — so the dates
-       land under the team line where there is no room beside the title. From md
-       the grid lifts them back up into the second column, beside the heading. */
-    <div
-      className={`grid grid-cols-1 gap-1.5 border-t border-mute-300 pt-10 pb-4 md:grid-cols-[1fr_auto] md:gap-x-4 ${last ? "border-b" : ""}`}
-    >
-      <h3 className="m-0 text-[18px] text-ink md:col-start-1 md:row-start-1">
-        <TitleLink href={href}>{activity.title}</TitleLink>
-      </h3>
-      <p className="m-0 text-[13px] text-mute-700 md:col-start-1 md:row-start-2">{activity.team}</p>
-      {/* Spans both rows so a two-line date never inflates the title's row and
-          pushes the team line down; the nudge sets it on the title's baseline. */}
-      <div className="flex flex-col gap-0.5 text-[12px] font-semibold whitespace-nowrap text-mute-600 md:col-start-2 md:row-span-2 md:row-start-1 md:self-start md:pt-[5px] md:text-right">
-        {activity.finalDate ? (
-          <>
-            <span>본선 {activity.finalDate}</span>
-            <span className="text-mute-500">예선 {activity.date}</span>
-          </>
-        ) : (
-          <span>{activity.date}</span>
-        )}
-      </div>
-    </div>
+    <EntryRow
+      meta={activity.finalDate ? `본선 ${activity.finalDate}` : activity.date}
+      metaSub={activity.finalDate ? `예선 ${activity.date}` : undefined}
+      title={activity.title}
+      href={href}
+      sub={activity.team}
+      subEmphasis={false}
+      points={activity.points}
+      last={last}
+    />
   );
 }
 
-export function PublicationItem({ pub, last = false, href }: { pub: Publication; last?: boolean; href?: string }) {
+export function PublicationRow({ pub, last = false, href }: { pub: Publication; last?: boolean; href?: string }) {
+  const { date, kind, rest } = splitVenue(pub.venue);
   return (
-    <div className={`flex flex-col gap-1.5 border-t border-mute-300 pt-10 pb-4 ${last ? "border-b" : ""}`}>
-      <div className="text-[15px] font-semibold leading-[1.4] text-ink"><TitleLink href={href}>{pub.title}</TitleLink></div>
-      <div className="text-[12px] text-mute-700">{pub.venue}</div>
-      <div className="text-[12px] text-mute-800"><AuthorLine authors={pub.authors} /></div>
-    </div>
+    <EntryRow
+      meta={date}
+      metaSub={kind || undefined}
+      title={pub.title}
+      href={href}
+      sub={rest}
+      subEmphasis={false}
+      note={<AuthorLine authors={pub.authors} />}
+      last={last}
+    />
   );
 }
 
 export function SkillRow({ skill, last = false, href }: { skill: Skill; last?: boolean; href?: string }) {
   return (
-    <div className={`grid grid-cols-1 items-start gap-2 border-t border-mute-300 pt-10 pb-4 md:grid-cols-[150px_1fr] md:gap-7 ${last ? "border-b" : ""}`}>
-      <div className="text-[12px] font-bold tracking-[.1em] uppercase text-mute-600"><TitleLink href={href}>{skill.label}</TitleLink></div>
+    <EntryRow meta={<TitleLink href={href}><span className="tracking-[.1em] uppercase">{skill.label}</span></TitleLink>} last={last}>
       {skill.type === "text" ? (
         <p className="m-0 text-[14px] leading-[1.7] text-mute-800">{skill.text}</p>
       ) : (
@@ -266,20 +327,12 @@ export function SkillRow({ skill, last = false, href }: { skill: Skill; last?: b
           ))}
         </div>
       )}
-    </div>
+    </EntryRow>
   );
 }
 
 export function AwardRow({ award, last = false, href }: { award: Award; last?: boolean; href?: string }) {
-  return (
-    <div className={`grid grid-cols-[1fr_auto] items-baseline gap-4 border-t border-mute-300 pt-10 pb-3.5 ${last ? "border-b" : ""}`}>
-      <div>
-        <div className="text-[14px] font-bold text-ink"><TitleLink href={href}>{award.title}</TitleLink></div>
-        <div className="mt-0.5 text-[12px] text-mute-700">{award.detail}</div>
-      </div>
-      <span className="whitespace-nowrap text-[12px] font-semibold text-mute-600">{award.date}</span>
-    </div>
-  );
+  return <EntryRow meta={award.date} title={award.title} href={href} sub={award.detail} subEmphasis={false} last={last} />;
 }
 
 /** Detail-page award article: date + title + note left, 상장 scan right. */
@@ -391,7 +444,7 @@ export function CertArticle({
     <article className={`grid grid-cols-1 items-start gap-6 border-t border-mute-300 pt-10 pb-7 md:grid-cols-[1fr_240px] md:gap-11 ${last ? "border-b" : ""}`}>
       <div className="flex flex-col gap-2">
         <Heading className="m-0 text-[22px] text-ink md:text-[24px]"><TitleLink href={href}>{cert.title}</TitleLink></Heading>
-        <p className="m-0 text-[13px] text-mute-700">{cert.sub}</p>
+        <p className="m-0 text-[13px] font-semibold text-mute-700">{cert.issuer}</p>
       </div>
       <div className="flex w-full max-w-[240px] flex-col gap-3">
         <CertDates date={cert.date} expires={cert.expires} />

@@ -1,4 +1,4 @@
-import { PublicationItem } from "../components/ui";
+import { PublicationRow } from "../components/ui";
 import MorphIntro from "../components/MorphIntro";
 import { Stagger, StaggerItem } from "../components/motion";
 import { publications } from "../data";
@@ -14,7 +14,7 @@ export default function PublicationsPage() {
         <Stagger>
           {publications.map((p, i) => (
             <StaggerItem key={i}>
-              <PublicationItem pub={p} last={i === publications.length - 1} href={detailHref("publications", pubId(i))} />
+              <PublicationRow pub={p} last={i === publications.length - 1} href={detailHref("publications", pubId(i))} />
             </StaggerItem>
           ))}
         </Stagger>

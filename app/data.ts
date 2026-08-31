@@ -61,6 +61,9 @@ export interface Cert {
   date: string;
   expires: string;
   title: string;
+  /** 발급·시행 기관. 목록에서는 이 줄이 제목을 받치고, 식별번호는 상세로 내린다. */
+  issuer: string;
+  /** 자격 식별번호 — 상세 페이지의 메타 표에만 노출된다. */
   sub: string;
   /** Scanned certificate. The image slot is dropped entirely when unset. */
   image?: GalleryImage;
@@ -156,8 +159,8 @@ export const projects: Project[] = [
     id: "pj-bwasp",
     title: "BWASP",
     period: "2021.09.03 – 현재",
-    tag: "BoB Web Application Security Project · Github 오픈소스 · 팀 프로젝트",
-    subtitle: "웹 취약점 수동 분석 보조 솔루션",
+    tag: "Github 오픈소스 · 팀 프로젝트",
+    subtitle: "웹 취약점 수동 분석 보조 솔루션 · BoB Web Application Security Project",
     githubHref: "", // TODO: 실제 GitHub 저장소 URL 입력
     images: [],
     points: [
@@ -304,16 +307,16 @@ export const experienceExp: TimelineItem[] = [
 
 // --------------------------------------------------- Certifications (5 + 2)
 export const certsQual: Cert[] = [
-  { id: "ct-gisa", date: "2026.06.12 취득", expires: "영구 · 만료 없음", title: "정보처리기사", sub: "26201080428C", image: { src: "/certifications/information-processing-engineer.png", alt: "국가기술자격증 — 정보처리기사 (26201080428C)", fit: "contain" } },
-  { id: "ct-hr-js", date: "2026.05.08 통과", expires: "영구 · 만료 없음", title: "HackerRank — JavaScript (Intermediate)", sub: "Award AD46F677E5EA", image: { src: "/certifications/hackerrank-javascript.png", alt: "HackerRank Certificate of Accomplishment — JavaScript (Intermediate)", fit: "contain" } },
-  { id: "ct-hr-node", date: "2025.12.17 통과", expires: "영구 · 만료 없음", title: "HackerRank — Node.js (Intermediate)", sub: "Award 0FEC456A1FFF", image: { src: "/certifications/hackerrank-nodejs.png", alt: "HackerRank Certificate of Accomplishment — Node.js (Intermediate)", fit: "contain" } },
-  { id: "ct-sqld", date: "2024.09.20 취득", expires: "2026.03.20 영구 전환", title: "SQL 개발자 (SQLD)", sub: "SQLD-054018954", image: { src: "/certifications/sqld.png", alt: "국가공인 자격증 — SQL 개발자 (SQLD-054018954)", fit: "contain" } },
-  { id: "ct-linux", date: "2020.10.23 취득", expires: "영구 · 만료 없음", title: "리눅스 마스터 2급", sub: "LMS-2003-006649", image: { src: "/certifications/linux-master-2.png", alt: "정보통신기술자격검정 합격확인서 — 리눅스마스터 2급 (LMS-2003-006649)", fit: "contain" } },
+  { id: "ct-gisa", date: "2026.06.12 취득", expires: "영구 · 만료 없음", title: "정보처리기사", issuer: "한국산업인력공단", sub: "26201080428C", image: { src: "/certifications/information-processing-engineer.png", alt: "국가기술자격증 — 정보처리기사 (26201080428C)", fit: "contain" } },
+  { id: "ct-hr-js", date: "2026.05.08 통과", expires: "영구 · 만료 없음", title: "JavaScript (Intermediate)", issuer: "HackerRank", sub: "Award AD46F677E5EA", image: { src: "/certifications/hackerrank-javascript.png", alt: "HackerRank Certificate of Accomplishment — JavaScript (Intermediate)", fit: "contain" } },
+  { id: "ct-hr-node", date: "2025.12.17 통과", expires: "영구 · 만료 없음", title: "Node.js (Intermediate)", issuer: "HackerRank", sub: "Award 0FEC456A1FFF", image: { src: "/certifications/hackerrank-nodejs.png", alt: "HackerRank Certificate of Accomplishment — Node.js (Intermediate)", fit: "contain" } },
+  { id: "ct-sqld", date: "2024.09.20 취득", expires: "2026.03.20 영구 전환", title: "SQL 개발자 (SQLD)", issuer: "한국데이터산업진흥원", sub: "SQLD-054018954", image: { src: "/certifications/sqld.png", alt: "국가공인 자격증 — SQL 개발자 (SQLD-054018954)", fit: "contain" } },
+  { id: "ct-linux", date: "2020.10.23 취득", expires: "영구 · 만료 없음", title: "리눅스 마스터 2급", issuer: "한국정보통신진흥협회", sub: "LMS-2003-006649", image: { src: "/certifications/linux-master-2.png", alt: "정보통신기술자격검정 합격확인서 — 리눅스마스터 2급 (LMS-2003-006649)", fit: "contain" } },
 ];
 
 export const certsEtc: Cert[] = [
-  { id: "ct-claude", date: "2026.06.14 수료", expires: "영구 · 만료 없음", title: "Claude Code in Action", sub: "Award 6672EG9J6DM9", image: { src: "/certifications/claude-code-in-action.png", alt: "Anthropic Certificate of Completion — Claude Code in Action", fit: "contain" } },
-  { id: "ct-googleai", date: "2025.12.03 수료", expires: "영구 · 만료 없음", title: "Google AI Essentials Specialization", sub: "Award EO3PBI26QHCK", image: { src: "/certifications/google-ai-essentials.jpg", alt: "Coursera Specialization Certificate — Google AI Essentials (5개 강좌)", fit: "contain" } },
+  { id: "ct-claude", date: "2026.06.14 수료", expires: "영구 · 만료 없음", title: "Claude Code in Action", issuer: "Anthropic", sub: "Award 6672EG9J6DM9", image: { src: "/certifications/claude-code-in-action.png", alt: "Anthropic Certificate of Completion — Claude Code in Action", fit: "contain" } },
+  { id: "ct-googleai", date: "2025.12.03 수료", expires: "영구 · 만료 없음", title: "Google AI Essentials Specialization", issuer: "Google", sub: "Award EO3PBI26QHCK", image: { src: "/certifications/google-ai-essentials.jpg", alt: "Coursera Specialization Certificate — Google AI Essentials (5개 강좌)", fit: "contain" } },
 ];
 
 // ----------------------------------------------------------- Education (9)

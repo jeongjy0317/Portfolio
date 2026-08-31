@@ -138,11 +138,12 @@ function certDetail(item: Cert, idx: number): DetailData {
     badge: item.expires.includes("영구") ? "영구" : "유효",
     badgeStrong: false,
     title: item.title,
-    subtitle: item.sub,
+    subtitle: item.issuer,
     imageLabel: "증빙 자료",
     images: item.image ? [item.image] : [],
     meta: [
       { k: "일자", v: item.date },
+      { k: "발급", v: item.issuer },
       { k: "유효기간", v: item.expires },
       { k: "식별번호", v: item.sub },
     ],
