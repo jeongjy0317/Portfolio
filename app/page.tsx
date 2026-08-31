@@ -128,52 +128,6 @@ export default function Overview() {
     return () => clearTimeout(t);
   }, [detail]);
 
-  // Section "catch": when scrolling stops on a boundary (two sections both
-  // visibly straddling the viewport), glide to whichever section owns the
-  // larger share — never resting awkwardly in-between. A big move is skipped so
-  // reading a taller-than-viewport section never yanks back to its top.
-  useEffect(() => {
-    if (detail) return; // overview only
-    const pad = () => parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
-    let idle: ReturnType<typeof setTimeout>;
-    let animating = false;
-
-    const settle = () => {
-      if (animating) return;
-      const vh = window.innerHeight;
-      const els = Array.from(document.querySelectorAll<HTMLElement>("main header, main section[id]"));
-      const vis = els
-        .map((el) => {
-          const r = el.getBoundingClientRect();
-          return { el, top: r.top, h: Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0)) };
-        })
-        .sort((a, b) => b.h - a.h);
-      const first = vis[0];
-      const second = vis[1];
-      if (!first || !second) return;
-      // Only act on a real straddle; if one section basically fills the screen
-      // we're inside it (aligned, or mid-read of a tall section) — leave it.
-      if (second.h < vh * 0.12) return;
-      const target = first.el.tagName === "HEADER" ? 0 : Math.round(window.scrollY + first.top - pad());
-      const move = target - window.scrollY;
-      if (Math.abs(move) < 4 || Math.abs(move) > vh * 0.9) return; // aligned already, or too far (tall section)
-      animating = true;
-      window.scrollTo({ top: target, behavior: "smooth" });
-      window.setTimeout(() => (animating = false), 700);
-    };
-
-    const onScroll = () => {
-      if (animating) return;
-      clearTimeout(idle);
-      idle = setTimeout(settle, 140);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      clearTimeout(idle);
-    };
-  }, [detail]);
-
   const [busy, setBusy] = useState(false);
 
   // Build the résumé with PDFKit and hand it straight to the browser — no print
