@@ -695,7 +695,18 @@ export const activities: Activity[] = [
     points: ["NYPC 2026 MASTER TRACK 예선에서 4위를 기록해 본선에 진출."],
   },
   { title: "2026 핵테온 세종: 고급부문 예선 13등 본선 진출", date: "2026.04.25", team: "팀 「군필 사이에 낀 미필게티」 - Web, AI 풀이 담당" },
-  { title: "WHITEHAT 2025: 대학생부 예선 4등 본선 진출", date: "2025.10.18", team: "팀 「금붕어하겐다즈도둑」 - Web, AI 풀이 담당" },
+  {
+    title: "WHITEHAT 2025: 대학생부 예선 4등 본선 진출",
+    date: "2025.10.18",
+    team: "팀 「금붕어하겐다즈도둑」 - Web, AI 풀이 담당",
+    imageLabel: "현장 사진",
+    images: [
+      {
+        src: "/experience/whitehat-2025-finals.jpg",
+        alt: "화이트햇 2025 본선 현장 — 팀 「금붕어하겐다즈도둑」 좌석 명패",
+      },
+    ],
+  },
   { title: "금융보안원 FIESTA 2025: 대학(원)생부문 7위 특별상", date: "2025.09.26 – 09.28", team: "팀 「금붕어하겐다즈도둑」 - Web, AI 풀이 담당" },
   { title: "Kaspersky CTF 2025: Asia·Oceania 권역 716팀 중 15등, 한국 2등", date: "2025.08.30 – 08.31", team: "팀 「Goldfish Haagen-Dazs Thieves」 - Web 풀이 담당" },
   { title: "CCE 2022: 공공부문 본선 진출", date: "2022.09.24", team: "팀 「제203항공마도대대」 - Web 풀이 담당" },
